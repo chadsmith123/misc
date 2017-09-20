@@ -4,6 +4,7 @@ XLSX reader
 Author: Chad Smith 
 
 Outputs xlsx sheet to std out
+Requires python 3
 """
 
 import sys
@@ -22,7 +23,7 @@ def count(args):
         for cell in row:
             dat=str(cell.value)
             out.append(dat)
-        print(*out, sep=args.delim)
+        print(*out, sep=' ')
 
     wb.close()
 if __name__ == '__main__':
