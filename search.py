@@ -51,3 +51,10 @@ def compare_col(query, db, column):
     out = sorted(queryu[~hitl])
     return(out)
 
+def locate(pattern, root=os.curdir):
+    import os, fnmatch
+    '''Locate all files matching supplied filename pattern in and below
+    supplied root directory.'''
+    for path, dirs, files in os.walk(os.path.abspath(root)):
+        for filename in fnmatch.filter(files, pattern):
+            yield os.path.join(path, filename)
