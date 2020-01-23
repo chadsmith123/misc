@@ -26,6 +26,7 @@ def load_project(project_name):
             return my_project
 
 def fileinfo(fileid):
+    file = api.files.get(fileid)
     info = {'href':file.href,
             'id':file.id,
             'type':file.type,
@@ -51,20 +52,32 @@ def filedf(file):
     return metadata
 
 def sls(query, pattern = None):
+    output = list()
     for ii in query.all():
         if pattern:
             if re.search(re.compile(pattern), ii.name):
-               print(f'{ii.name}\t{ii.id}')
+               #print(f'{ii.name}\t{ii.id}')
+               output.append((ii.name, ii.id))
         else:
-           print(f'{ii.name}\t{ii.id}')
+           #print(f'{ii.name}\t{ii.id}')
+           output.append((ii.name, ii.id))
+    return output
 
 def slf(query, pattern = None):
+    output = list()
     for ii in query.all():
         if ii.is_folder():
             if pattern:
                 if re.search(re.compile(pattern), ii.name):
-                    print(f'{ii.name}\t{ii.id}')
+                    output.append((ii.name, ii.id))
+                    #print(f'{ii.name}\t{ii.id}')
             else:
-                print(f'{ii.name}\t{ii.id}')
+                output.append((ii.name, ii.id))
+                #print(f'{ii.name}\t{ii.id}')
+    return(output)
+
+def srm(fileid):
+    file = api.files.get(fileid)
+    file.delete()
 
 
