@@ -1,4 +1,5 @@
 import re
+import os, fnmatch
 
 def search_list(pattern, input):
     r = re.compile(pattern, flags = re.I)
@@ -52,7 +53,6 @@ def compare_col(query, db, column):
     return(out)
 
 def locate(pattern, root=os.curdir):
-    import os, fnmatch
     '''Locate all files matching supplied filename pattern in and below
     supplied root directory.'''
     for path, dirs, files in os.walk(os.path.abspath(root)):
