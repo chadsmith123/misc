@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -l nodes=1:ppn=16
+#PBS -l walltime=08:00:00
+#PBS -q batch
+#PBS -M chad.smith@jax.org
+module load samtools
+set -x
+
+cd $PBS_O_WORKDIR
+
+samtools merge -@ 16 -fc -b ${bam_files_file} merged.bam &&
+samtools sort -@ 16 merged.bam -o ${bam_outfile} &&
+rm merged.bam && 
+echo '#DONE'

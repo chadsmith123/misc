@@ -1,0 +1,23 @@
+#!/bin/bash
+#PBS -N vcf-concat
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=01:00:00
+#PBS -q batch
+#PBS -M chad.smith@jax.org
+
+module load vcftools tabix
+set -x
+
+cd $PBS_O_WORKDIR
+
+# Uncomment and bgzip vcfs if --merge-sort flag set 
+#while read line; do
+#    if [ ! -e "${line}.tbi" ];then
+#        tabix $line
+#    fi 
+#done < ${vcf_file_list}
+
+# qsub -V -v vcf_file_list=${vcf_file_list},output_vcf=${output_vcf},PBS_O_WORKDIR=${PBS_O_WORKDIR -e $log -o $log
+vcf-concat --pad-missing --files ${vcf_file_list} > ${output_vcf} &&
+
+echo '#DONE'

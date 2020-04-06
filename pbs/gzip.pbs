@@ -1,0 +1,11 @@
+#!/bin/bash
+#PBS -N gzip
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=05:00:00
+#PBS -q batch
+#PBS -M chad.smith@jax.org
+set -x
+
+cd $PBS_O_WORKDIR
+gzip ${infile}
+echo '#DONE'

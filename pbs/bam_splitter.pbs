@@ -1,0 +1,18 @@
+#!/bin/bash
+#PBS -N bam_splitter
+#PBS -l nodes=1:ppn=16
+#PBS -l walltime=08:00:00
+#PBS -q batch
+#PBS -M chad.smith@jax.org
+module load samtools
+set -x
+
+cd $PBS_O_WORKDIR
+
+if [ ! -L "${bam_file}" ] && [ ! -e "${bam_file}" ]; then
+    echo "${bam_file} not found. Exiting..."
+    exit 1
+fi
+
+bam_splitter.py ${bam_file} &&
+echo '#DONE'

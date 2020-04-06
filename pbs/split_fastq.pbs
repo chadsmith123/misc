@@ -1,0 +1,11 @@
+#!/bin/bash
+#PBS -N split_fastq
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=10:00:30
+#PBS -q batch
+#PBS -M chad.smith@jax.org
+set -x
+cd $PBS_O_WORKDIR
+
+time split_fastq.py $fastq $last_bam_rec
+echo '#DONE'
