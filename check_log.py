@@ -8,8 +8,10 @@ import os
 from glob import glob
 import subprocess as sb
 import argparse
+import socket 
 
-def main(log_dir, jobs, head, tail, cat, log, clust):
+def main(log_dir, jobs, head, tail, cat, log):
+    hostname = socket.gethostname()
     if os.path.exists(jobs):
         job_l = []
         with open(jobs, 'rt') as fh:
@@ -28,15 +30,15 @@ def main(log_dir, jobs, head, tail, cat, log, clust):
         sys.exit(f'{log_dir} does not exist. Exiting...')
 
     for ii in job_l:
-        if clust == 'sumner':
+        if 'sumner' in hostname:
             stdout_glob = f'{log_dir}/*{ii}*.out'
             stderr_glob = f'{log_dir}/*{ii}*.err'
             stdout_status = ('State: ', 'COMPLETED (exit code 0)')
-        if clust == 'helix':
+        if 'helix' in hostname:
             stdout_glob = f'{log_dir}/*o{ii}'
             stderr_glob = f'{log_dir}/*e{ii}'
             stdout_status = ('Exit Status: ', '0\n')
-            f = glob(stdout_glob)
+        f = glob(stdout_glob)
         if len(f) > 1:
             print(f'ERROR: {stdout_glob} returns more than one file.')
             break
@@ -95,7 +97,6 @@ if __name__ == '__main__':
     PARSER.add_argument('--head', help='Number of lines to output at beginning of log')
     PARSER.add_argument('--tail', help='Number of lines to output at end of log')
     PARSER.add_argument('--log', default='stdout', choices=['stderr', 'stdout'])
-    PARSER.add_argument('--clust', default='helix', choices=['helix', 'sumner'])
 
     if len(sys.argv) == 1:
         PARSER.print_help()
