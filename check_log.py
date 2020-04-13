@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" Log status and log outputter from PBS jobs on Helix 
+""" Cluster log status and log outputter 
     Assumes that if there is no Exit Status in standard out that job is RUNNING
 """
 import re
@@ -54,11 +54,7 @@ def main(log_dir, jobs, head, tail, cat, log):
                 if stdout_status[0] in line:
                     exit_status = True
                     hit = re.search(''.join(stdout_status), line)
-                    #hit = re.search('Exit Status: 0\n', line)
-                    if hit:
-                        print('PASS', log_file)
-                    else:
-                        print(line.strip('\n'), log_file)
+                    print(line.strip('| ').strip('\n'), log_file)
             if not exit_status:
                 print("RUNNING", log_file)
     
@@ -71,7 +67,6 @@ def main(log_dir, jobs, head, tail, cat, log):
             log_file = f[0]
             if not f:
                 print(f'{log_glob} not found')
-                #print(f'{log_dir}/*{log_id}{ii} not found')
                 break
 
         if cat:
